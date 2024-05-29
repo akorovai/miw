@@ -2,7 +2,8 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn import datasets
 import matplotlib.pyplot as plt
-from plotka import plot_decision_regions
+from .plotka import plot_decision_regions
+
 
 class LogisticRegressionGD(object):
     def __init__(self, eta=0.01, n_iter=100000, random_state=1):
@@ -31,6 +32,7 @@ class LogisticRegressionGD(object):
 
     def predict(self, X):
         return np.where(self.net_input(X) >= 0.0, 1, 0)
+
 
 class SoftmaxClassifier:
     def __init__(self, num_classes):
@@ -70,7 +72,7 @@ def evaluate_performance(y_true, y_pred):
     print("F1 Score:", f1)
 
 
-def main():
+def soft_max():
     iris = datasets.load_iris()
     X = iris.data[:, [2, 3]]
     y = iris.target
@@ -97,5 +99,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
-
+    soft_max()

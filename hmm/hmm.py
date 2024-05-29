@@ -1,107 +1,47 @@
 import numpy as np
-import time
 import matplotlib.pyplot as plt
 import random
+from typing import List, Tuple
 
-choices = ['P', 'K', 'N']
 
-occurance_matrix = np.array([[2, 4, 1], [0, 0, 4], [4, 1, 2]])
+def update_occurance_matrix(matrix: np.ndarray, state_idx: int, action: str) -> None:
+    action_idx = {'P': 0, 'K': 1, 'N': 2}[action]
+    matrix[state_idx, action_idx] += 1
 
-opponent_strategy = np.array([1/3, 1/3, 1/3])
 
-kasa = []
+def simulate_game(iteration_number: int = 3000) -> Tuple[np.ndarray, List[int]]:
+    choices = ['P', 'K', 'N']
+    occurance_matrix = np.array([[2, 4, 1], [0, 0, 4], [4, 1, 2]])
+    opponent_strategy = np.array([1 / 3, 1 / 3, 1 / 3])
+    kasa = []
+    stan_kasy = 0
 
-stan_kasy = 0
+    state = random.choice(choices)
 
-iterarion_number = 3000
-first_element_decision = random.random()
-state = ''
-
-if first_element_decision > 0.66:
-    state = 'P'
-elif first_element_decision < 0.33:
-    state = 'N'
-else:
-    state = 'K'
-
-for i in range(iterarion_number):
-    print("Iteration ", i + 1)
-    opponent_action = ''
-    if state == 'P':
-        prediction = np.random.choice(choices, p=occurance_matrix[0] / sum(occurance_matrix[0]))
-        print("Prediction: \n" + prediction)
-        print(occurance_matrix[0] / sum(occurance_matrix[0]))
-
+    for _ in range(iteration_number):
+        state_idx = choices.index(state)
+        prediction = np.random.choice(choices, p=occurance_matrix[state_idx] / sum(occurance_matrix[state_idx]))
         opponent_action = np.random.choice(choices, p=opponent_strategy)
 
-        print("Opponent Action:", opponent_action)
-        if opponent_action == 'P':
-            occurance_matrix[0, 0] += 1
-        elif opponent_action == 'K':
-            occurance_matrix[0, 1] += 1
-        else:
-            occurance_matrix[0, 2] += 1
+        update_occurance_matrix(occurance_matrix, state_idx, opponent_action)
 
         if opponent_action == prediction:
             stan_kasy += 1
-            kasa.append(stan_kasy)
-        elif opponent_action == "N":
+        elif (state == 'P' and opponent_action == 'N') or (state == 'N' and opponent_action == 'K') or (
+                state == 'K' and opponent_action == 'P'):
             stan_kasy -= 1
-            kasa.append(stan_kasy)
-        else:
-            kasa.append(stan_kasy)
-    elif state == 'K':
-        prediction = np.random.choice(choices, p=occurance_matrix[1] / sum(occurance_matrix[1]))
-        print("Prediction: \n" + prediction)
-        print(occurance_matrix[1] / sum(occurance_matrix[1]))
-        opponent_action = np.random.choice(choices, p=opponent_strategy)
 
-        print("Opponent Action:", opponent_action)
-        if opponent_action == 'P':
-            occurance_matrix[1, 0] += 1
-        elif opponent_action == 'K':
-            occurance_matrix[1, 1] += 1
-        else:
-            occurance_matrix[1, 2] += 1
+        kasa.append(stan_kasy)
+        state = opponent_action
 
-        if opponent_action == prediction:
-            stan_kasy += 1
-            kasa.append(stan_kasy)
-        elif opponent_action == "P":
-            stan_kasy -= 1
-            kasa.append(stan_kasy)
-        else:
-            kasa.append(stan_kasy)
-    elif state == 'N':
-        prediction = np.random.choice(choices, p=occurance_matrix[2] / sum(occurance_matrix[2]))
-        print("Prediction: \n" + prediction)
-        print(occurance_matrix[2] / sum(occurance_matrix[2]))
-        opponent_action = np.random.choice(choices, p=opponent_strategy)
+    plt.plot(kasa)
+    plt.xlabel('Iteration')
+    plt.ylabel('Stan kasy')
+    plt.title('Stan kasy w czasie')
+    plt.show()
 
-        print("Opponent Action:", opponent_action)
-
-        if opponent_action == 'P':
-            occurance_matrix[2, 0] += 1
-        elif opponent_action == 'K':
-            occurance_matrix[2, 1] += 1
-        else:
-            occurance_matrix[2, 2] += 1
-
-        if opponent_action == prediction:
-            stan_kasy += 1
-            kasa.append(stan_kasy)
-        elif opponent_action == "K":
-            stan_kasy -= 1
-            kasa.append(stan_kasy)
-        else:
-            kasa.append(stan_kasy)
-
-    state = opponent_action
-
-    print("\n")
+    return occurance_matrix, kasa
 
 
-occurance_matrix
-plt.plot(kasa)
-plt.show()
-print(len(kasa))
+if __name__ == "__main__":
+    simulate_game()

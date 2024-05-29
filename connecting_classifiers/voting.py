@@ -1,7 +1,6 @@
 
 import matplotlib.pylab as plt
 from sklearn import datasets
-# from distutils.version import LooseVersion as Version
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import cross_val_score
 from sklearn.preprocessing import StandardScaler

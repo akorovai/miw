@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn import datasets
-from plotka import plot_decision_regions
+from .plotka import plot_decision_regions
 
 
 class Perceptron(object):
@@ -28,7 +28,7 @@ class Perceptron(object):
         return np.where(self.net_input(X) >= 0.0, 1, -1)
 
 
-def main():
+def classify():
     iris = datasets.load_iris()
 
     x = iris.data[:, [2, 3]]
@@ -57,4 +57,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    classify()
