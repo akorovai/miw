@@ -1,2 +1,2 @@
 # miw
-Moja realizacja projektów MIW (Metodyki Inżynierii Wiedzy)
+Moja realizacja projektów MIW (Metody Inżynierii Wiedzy)
