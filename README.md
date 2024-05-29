@@ -3,6 +3,24 @@
 
 This README file provides an overview of the functionalities and usage of the modules included in this project.
 
+## Libraries Used:
+
+- `os`
+- `argparse`
+- `matplotlib`
+- `numpy`
+- `keras` (from TensorFlow)
+- `tensorflow`
+- `sklearn`
+
+### Installation:
+
+You can install the required libraries using pip. Run the following command in your terminal:
+
+```
+pip install keras tensorflow scikit-learn matplotlib
+```
+
 ## Modules Overview:
 
 1. **Autocoder Module**: 
@@ -93,6 +111,14 @@ evaluate_classification_models(10000, 0.4, 42, 0.2, 100, 1000)
 from cnn.CNN_example import train_and_evaluate_models
 
 train_and_evaluate_models()
+```
+
+## Starting the Project:
+
+To start the project, navigate to the directory containing the main.py file and execute it using the following command:
+
+```
+python main.py
 ```
 
 Feel free to explore each module further for detailed usage and functionalities.
